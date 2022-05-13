@@ -10,5 +10,11 @@
     "ethereum-waffle": "^3.0.0",
     "ethers": "^5.0.0",
     "hardhat": "^2.9.3"
+  },
+  "scripts": {
+    "deploy": "npx hardhat run scripts/deploy.js --network rinkeby"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.1"
   }
 }

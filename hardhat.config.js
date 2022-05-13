@@ -10,6 +10,7 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
   }
 });
 
+require('dotenv').config()
 // You need to export an object to set up your config
 // Go to https://hardhat.org/config/ to learn more
 
@@ -19,9 +20,11 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
 module.exports = {
   solidity: "0.8.0",
   networks: {
+    hardhat: {
+    },
     rinkeby: {
-      url: "",
-      accounts: [""],
+      url: process.env.ALCHEMY_API,
+      accounts: [process.env.PRIVATE_KEY],
     },
   },
 };
