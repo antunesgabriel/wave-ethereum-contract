@@ -15,12 +15,16 @@ contract WavePortal {
 
     Wave[] waves;
 
+    uint256 private seed;
+
     mapping(address => uint) stats;
 
     event NewWave(address indexed from, uint256 timestamp, string message);
 
-    constructor() {
+    constructor() payable {
         console.log("Hello WavePortal!");
+
+        seed = (block.timestamp + block.difficulty) % 100;
     }
 
     function wave(string memory _message) public {
@@ -30,6 +34,23 @@ contract WavePortal {
         console.log("%s tchauzinhou com a mensagem %s", msg.sender, _message);
 
         waves.push(Wave(msg.sender, _message, block.timestamp));
+
+        seed = (block.difficulty + block.timestamp + seed) % 100;
+
+        console.log("# randomico gerado: %d", seed);
+
+        if (seed <= 50) {
+            uint256 gift = 0.0001 ether;
+
+            require(
+                gift <= address(this).balance,
+                "The Contract no has founds"
+            );
+
+            (bool success, ) = (msg.sender).call{value: gift}("");
+
+            require(success, "unable to send gift");
+        }
 
         emit NewWave(msg.sender, block.timestamp, _message);
     }
