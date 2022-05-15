@@ -12,7 +12,7 @@
     "hardhat": "^2.9.3"
   },
   "scripts": {
-    "deploy": "npx hardhat run scripts/deploy.js --network rinkeby",
+    "deploy": "npx hardhat run scripts/deploy.js --network goerli",
     "start:dev": "npx hardhat run scripts/run.js"
   },
   "dependencies": {

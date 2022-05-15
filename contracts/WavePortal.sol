@@ -17,7 +17,7 @@ contract WavePortal {
 
     uint256 private seed;
 
-    mapping(address => uint) stats;
+    mapping(address => uint256) lastWavedAt;
 
     event NewWave(address indexed from, uint256 timestamp, string message);
 
@@ -28,8 +28,14 @@ contract WavePortal {
     }
 
     function wave(string memory _message) public {
+        require(
+            lastWavedAt[msg.sender] + 35 seconds < block.timestamp,
+            "Wait 35 seconds"
+        );
+
         totalWaves += 1;
-        stats[msg.sender] = stats[msg.sender] + 1;
+
+        lastWavedAt[msg.sender] = block.timestamp;
 
         console.log("%s tchauzinhou com a mensagem %s", msg.sender, _message);
 
@@ -59,10 +65,6 @@ contract WavePortal {
         console.log("temos no totoal %d tchauzinhos", totalWaves);
 
         return totalWaves;
-    }
-
-    function getStats(address adr) public view returns (uint) {
-        return stats[adr];
     }
 
     function getAllWaves() public view returns (Wave[] memory) {
